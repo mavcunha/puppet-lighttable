@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+MODULE_NAME='puppet-lighttable'
+
+# lint need us to be on a directory that is named after the module,
+# on snap the clone operation is done not with the repo name therefore
+# not the module name, we need to explicitly create the dir and move
+# everything inside it.
+if [[ -n ${SNAP_CI} ]]; then
+  echo "Runnig on SNAP-CI"
+  mkdir ${MODULE_NAME}
+  mv {Gemfile,Gemfile.lock,manifests,spec,script} ${MODULE_NAME}
+  cd ${MODULE_NAME}
+fi
+
+script/cibuild
